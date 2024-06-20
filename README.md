@@ -7,9 +7,9 @@ golang [xtream codes api](https://github.com/engenex/xtream-codes-api-v2/blob/ma
 package main
 
 import (
-	"os"
 	"context"
-	
+	"fmt"
+
 	xtream_codes "github.com/pbergman/xtream-codes-go"
 )
 
@@ -20,7 +20,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	
 
 	client, err := xtream_codes.NewApiClient(config, nil, nil, nil)
 
@@ -29,8 +28,14 @@ func main() {
 	}
 
 	categories, err := client.GetLiveCategories(context.Background())
-	
-	// ...
+
+	if err != nil {
+		panic(err)
+	}
+
+	for _, category := range categories {
+		fmt.Printf("%-4d %s", category.GetId(), category.GetName())
+	}
 }
 ```
 
