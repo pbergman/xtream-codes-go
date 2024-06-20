@@ -8,6 +8,7 @@ package main
 
 import (
 	"os"
+	"context"
 	
 	xtream_codes "github.com/pbergman/xtream-codes-go"
 )
@@ -27,7 +28,7 @@ func main() {
 		panic(err)
 	}
 
-	categories, err := client.GetLiveCategories()
+	categories, err := client.GetLiveCategories(context.Background())
 	
 	// ...
 }

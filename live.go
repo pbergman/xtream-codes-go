@@ -1,6 +1,7 @@
 package xtream_codes_go
 
 import (
+	"context"
 	"strconv"
 )
 
@@ -13,11 +14,11 @@ type LiveStream struct {
 	TvArchiveDuration nummeric `json:"tv_archive_duration"`
 }
 
-func (a *ApiClient) GetLiveCategories() ([]CategoryInterface, error) {
-	return a.getCategories(CategoryTypeLive)
+func (a *ApiClient) GetLiveCategories(ctx context.Context) ([]CategoryInterface, error) {
+	return a.getCategories(ctx, CategoryTypeLive)
 }
 
-func (a *ApiClient) GetLiveStreams(category int) ([]*LiveStream, error) {
+func (a *ApiClient) GetLiveStreams(ctx context.Context, category int) ([]*LiveStream, error) {
 	var streams []*LiveStream
 	var values map[string]string
 
@@ -25,7 +26,7 @@ func (a *ApiClient) GetLiveStreams(category int) ([]*LiveStream, error) {
 		values = map[string]string{"category_id": strconv.Itoa(category)}
 	}
 
-	if err := a.fetch(a.context("get_live_streams", values), playerApi, &streams); err != nil {
+	if err := a.fetch(a.context(ctx, "get_live_streams", values), playerApi, &streams); err != nil {
 		return nil, err
 	}
 

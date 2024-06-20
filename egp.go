@@ -1,6 +1,7 @@
 package xtream_codes_go
 
 import (
+	"context"
 	"encoding/base64"
 	"encoding/json"
 	"strconv"
@@ -68,23 +69,23 @@ type EpgListening struct {
 	EpgListings []*EpgListing `json:"epg_listings"`
 }
 
-func (a *ApiClient) GetSimpleDataTable(streamId int) (*EpgListening, error) {
+func (a *ApiClient) GetSimpleDataTable(ctx context.Context, streamId int) (*EpgListening, error) {
 	var egpInfo *EpgListening
 	var values = map[string]string{"stream_id": strconv.Itoa(streamId)}
 
-	if err := a.fetch(a.context("get_simple_data_table", values), playerApi, &egpInfo); err != nil {
+	if err := a.fetch(a.context(ctx, "get_simple_data_table", values), playerApi, &egpInfo); err != nil {
 		return nil, err
 	}
 
 	return egpInfo, nil
 }
 
-func (a *ApiClient) GetShortEpg(streamId int) (*EpgListening, error) {
+func (a *ApiClient) GetShortEpg(ctx context.Context, streamId int) (*EpgListening, error) {
 
 	var egpInfo *EpgListening
 	var values = map[string]string{"stream_id": strconv.Itoa(streamId)}
 
-	if err := a.fetch(a.context("get_short_epg", values), playerApi, &egpInfo); err != nil {
+	if err := a.fetch(a.context(ctx, "get_short_epg", values), playerApi, &egpInfo); err != nil {
 		return nil, err
 	}
 

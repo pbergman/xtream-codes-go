@@ -1,6 +1,9 @@
 package xtream_codes_go
 
-import "strconv"
+import (
+	"context"
+	"strconv"
+)
 
 type VodStream struct {
 	model_base
@@ -56,7 +59,7 @@ type VodInfo struct {
 	MovieData *MovieData `json:"movie_data"`
 }
 
-func (a *ApiClient) GetVodStreams(category int) ([]*VodStream, error) {
+func (a *ApiClient) GetVodStreams(ctx context.Context, category int) ([]*VodStream, error) {
 	var streams []*VodStream
 	var values map[string]string
 
@@ -64,29 +67,29 @@ func (a *ApiClient) GetVodStreams(category int) ([]*VodStream, error) {
 		values = map[string]string{"category_id": strconv.Itoa(category)}
 	}
 
-	if err := a.fetch(a.context("get_vod_streams", values), playerApi, &streams); err != nil {
+	if err := a.fetch(a.context(ctx, "get_vod_streams", values), playerApi, &streams); err != nil {
 		return nil, err
 	}
 
 	return streams, nil
 }
 
-func (a *ApiClient) GetVodInfo(id int) (*VodInfo, error) {
+func (a *ApiClient) GetVodInfo(ctx context.Context, id int) (*VodInfo, error) {
 	var seriesInfo *VodInfo
 
 	var values = map[string]string{
 		"vod_id": strconv.Itoa(id),
 	}
 
-	if err := a.fetch(a.context("get_vod_info", values), playerApi, &seriesInfo); err != nil {
+	if err := a.fetch(a.context(ctx, "get_vod_info", values), playerApi, &seriesInfo); err != nil {
 		return nil, err
 	}
 
 	return seriesInfo, nil
 }
 
-func (a *ApiClient) GetVodCategories() ([]CategoryInterface, error) {
-	return a.getCategories(CategoryTypeVod)
+func (a *ApiClient) GetVodCategories(ctx context.Context) ([]CategoryInterface, error) {
+	return a.getCategories(ctx, CategoryTypeVod)
 }
 
 func (a *ApiClient) GetVodUri(id int, extension string) string {

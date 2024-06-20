@@ -36,7 +36,7 @@ func NewApiClient(config ApiClientConfig, logger *logger.Logger, client *http.Cl
 
 	var api = &ApiClient{client: client}
 
-	if err := authenticate(api, logger); err != nil {
+	if err := authenticate(context.Background(), api, logger); err != nil {
 		return nil, err
 	}
 
@@ -50,7 +50,7 @@ type ApiClient struct {
 	loginInfo *LoginInfo
 }
 
-func (a *ApiClient) context(action string, params map[string]string) context.Context {
+func (a *ApiClient) context(ctx context.Context, action string, params map[string]string) context.Context {
 	var values = make(url.Values)
 
 	values.Set("action", action)
@@ -59,7 +59,7 @@ func (a *ApiClient) context(action string, params map[string]string) context.Con
 		values.Set(k, v)
 	}
 
-	return context.WithValue(context.Background(), "values", values)
+	return context.WithValue(ctx, "values", values)
 }
 
 func (a *ApiClient) fetch(ctx context.Context, path string, data any) error {

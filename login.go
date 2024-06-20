@@ -39,19 +39,19 @@ type LoginInfo struct {
 	ServerInfo *ServerInfo `json:"server_info"`
 }
 
-func (a *ApiClient) Login() (*LoginInfo, error) {
+func (a *ApiClient) Login(ctx context.Context) (*LoginInfo, error) {
 
 	var info *LoginInfo
 
-	if err := a.fetch(context.Background(), playerApi, &info); err != nil {
+	if err := a.fetch(ctx, playerApi, &info); err != nil {
 		return nil, err
 	}
 
 	return info, nil
 }
 
-func authenticate(client *ApiClient, logger *logger.Logger) error {
-	info, err := client.Login()
+func authenticate(ctx context.Context, client *ApiClient, logger *logger.Logger) error {
+	info, err := client.Login(ctx)
 
 	if err != nil {
 		return &Error{message: "failed to login", prev: err}

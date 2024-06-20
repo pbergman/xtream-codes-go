@@ -1,6 +1,7 @@
 package xtream_codes_go
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"strconv"
@@ -119,7 +120,7 @@ type SeriesInfo struct {
 	Episodes map[int][]*Episode `json:"episodes"` // indexed by season
 }
 
-func (a *ApiClient) GetSeries(category int) ([]*Series, error) {
+func (a *ApiClient) GetSeries(ctx context.Context, category int) ([]*Series, error) {
 	var series []*Series
 	var values map[string]string
 
@@ -127,25 +128,25 @@ func (a *ApiClient) GetSeries(category int) ([]*Series, error) {
 		values = map[string]string{"category_id": strconv.Itoa(category)}
 	}
 
-	if err := a.fetch(a.context("get_series", values), playerApi, &series); err != nil {
+	if err := a.fetch(a.context(ctx, "get_series", values), playerApi, &series); err != nil {
 		return nil, err
 	}
 
 	return series, nil
 }
 
-func (a *ApiClient) GetSeriesInfo(id int) (*SeriesInfo, error) {
+func (a *ApiClient) GetSeriesInfo(ctx context.Context, id int) (*SeriesInfo, error) {
 	var seriesInfo *SeriesInfo
 
-	if err := a.fetch(a.context("get_series_info", map[string]string{"series_id": strconv.Itoa(id)}), playerApi, &seriesInfo); err != nil {
+	if err := a.fetch(a.context(ctx, "get_series_info", map[string]string{"series_id": strconv.Itoa(id)}), playerApi, &seriesInfo); err != nil {
 		return nil, err
 	}
 
 	return seriesInfo, nil
 }
 
-func (a *ApiClient) GetSeriesCategories() ([]CategoryInterface, error) {
-	return a.getCategories(CategoryTypeSeries)
+func (a *ApiClient) GetSeriesCategories(ctx context.Context) ([]CategoryInterface, error) {
+	return a.getCategories(ctx, CategoryTypeSeries)
 }
 
 // GetSeriesUri build serie url

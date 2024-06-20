@@ -1,6 +1,9 @@
 package xtream_codes_go
 
-import "sort"
+import (
+	"context"
+	"sort"
+)
 
 type CategoryType string
 
@@ -48,10 +51,10 @@ func (c categoryWrapper) Swap(i, j int) {
 	c[i], c[j] = c[j], c[i]
 }
 
-func (a *ApiClient) getCategories(categoryType CategoryType) ([]CategoryInterface, error) {
+func (a *ApiClient) getCategories(ctx context.Context, categoryType CategoryType) ([]CategoryInterface, error) {
 	var categories []*category
 
-	if err := a.fetch(a.context("get_"+string(categoryType)+"_categories", nil), playerApi, &categories); err != nil {
+	if err := a.fetch(a.context(ctx, "get_"+string(categoryType)+"_categories", nil), playerApi, &categories); err != nil {
 		return nil, err
 	}
 
