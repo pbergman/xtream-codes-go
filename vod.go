@@ -6,9 +6,9 @@ import (
 )
 
 type VodStream struct {
-	model_base
-	model_stream
-	model_video
+	ModelBase
+	ModelStream
+	ModelVideo
 
 	Trailer            string `json:"trailer"`
 	ContainerExtension string `json:"container_extension"`

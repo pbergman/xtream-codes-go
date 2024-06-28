@@ -7,14 +7,14 @@ import (
 	"strings"
 )
 
-type model_base struct {
+type ModelBase struct {
 	Num         int    `json:"num"`
 	Name        string `json:"name"`
 	CategoryId  int    `json:"category_id,string"`
 	CategoryIds []int  `json:"category_ids"`
 }
 
-type model_stream struct {
+type ModelStream struct {
 	StreamType   string  `json:"stream_type"`
 	StreamId     int     `json:"stream_id"`
 	StreamIcon   string  `json:"stream_icon"`
@@ -24,7 +24,7 @@ type model_stream struct {
 	DirectSource string  `json:"direct_source"`
 }
 
-type model_video struct {
+type ModelVideo struct {
 	Rating       float   `json:"rating"`
 	Rating5Based float   `json:"rating_5based"`
 	Tmdb         varchar `json:"tmdb"`

@@ -8,8 +8,8 @@ import (
 )
 
 type Series struct {
-	model_base
-	model_video
+	ModelBase
+	ModelVideo
 	SeriesId       int      `json:"series_id"`
 	Cover          string   `json:"cover"`
 	Plot           string   `json:"plot"`
@@ -25,8 +25,8 @@ type Series struct {
 
 func (s *Series) UnmarshalJSON(data []byte) error {
 	var o struct {
-		model_base
-		model_video
+		ModelBase
+		ModelVideo
 
 		SeriesId       int         `json:"series_id"`
 		Cover          string      `json:"cover"`
@@ -45,8 +45,8 @@ func (s *Series) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	s.model_base = o.model_base
-	s.model_video = o.model_video
+	s.ModelBase = o.ModelBase
+	s.ModelVideo = o.ModelVideo
 	s.SeriesId = o.SeriesId
 	s.Cover = o.Cover
 	s.Plot = o.Plot

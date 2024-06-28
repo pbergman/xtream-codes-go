@@ -6,8 +6,8 @@ import (
 )
 
 type LiveStream struct {
-	model_base
-	model_stream
+	ModelBase
+	ModelStream
 
 	EpgChannelId      string   `json:"epg_channel_id"`
 	TvArchive         boolean  `json:"tv_archive"`
